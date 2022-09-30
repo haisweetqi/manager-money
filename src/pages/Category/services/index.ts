@@ -2,16 +2,16 @@ import apiService from "../../../services/axiosConfig"
 
 const CategoryService = {
     getListCategory() {
-        apiService.get("/category/list")
+        return apiService.get("/category/list")
     },
     addCategory(params: any) {
-        apiService.post("/category/create", params)
+        return apiService.post("/category/create", params)
     },
     updateCategory(id: any, params: any) {
-        apiService.post(`/category/${id}/update`, params)
+        return apiService.put(`/category/${id}/update`, params)
     },
     deleteCategory(id: any) {
-        apiService.post(`category/${id}/delete`)
+        return apiService.delete(`category/${id}/delete`)
     }
 }
 

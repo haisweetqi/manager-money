@@ -6,6 +6,18 @@ const apiConfig = axios.create({
     headers: { "Content-Type": "application/json" }
 })
 
+apiConfig.interceptors.request.use(
+    (config: any) => {
+        const token = localStorage.getItem("token")
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`
+        }
+
+        return config
+    },
+    error => Promise.reject(error)
+)
+
 const apiService = {
     post(urlApi: string, params?: any) {
         return apiConfig
@@ -15,25 +27,25 @@ const apiService = {
     },
     patch(urlApi: string, params?: any) {
         return apiConfig
-            .post(urlApi, params)
+            .patch(urlApi, params)
             .then(response => response)
             .catch(error => error)
     },
     put(urlApi: string, params?: any) {
         return apiConfig
-            .post(urlApi, params)
+            .put(urlApi, params)
             .then(response => response)
             .catch(error => error)
     },
     get(urlApi: string) {
         return apiConfig
-            .post(urlApi)
+            .get(urlApi)
             .then(response => response)
             .catch(error => error)
     },
     delete(urlApi: string) {
         return apiConfig
-            .post(urlApi)
+            .delete(urlApi)
             .then(response => response)
             .catch(error => error)
     }
