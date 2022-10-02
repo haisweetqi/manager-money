@@ -2,16 +2,16 @@ import apiService from "../../../services/axiosConfig"
 
 const SpendingService = {
     getListSpending() {
-        apiService.get("/spending/list")
+        return apiService.get("/spending/list")
     },
     addSpending(params: any) {
-        apiService.post("/spending/create", params)
+        return apiService.post("/spending/create", params)
     },
     updateSpending(id: any, params: any) {
-        apiService.put(`/spending/${id}/update`, params)
+        return apiService.put(`/spending/${id}/update`, params)
     },
     deleteSpending(id: any) {
-        apiService.delete(`spending/${id}/delete`)
+        return apiService.delete(`spending/${id}/delete`)
     }
 }
 

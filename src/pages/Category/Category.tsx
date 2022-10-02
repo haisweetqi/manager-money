@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Button, Input, Modal, Space, Table } from "antd"
 import { ColumnsType } from "antd/lib/table"
-import { DataType } from "../../types/type"
+import { DataTypeCategory } from "../../types/type"
 import { Link, useNavigate } from "react-router-dom"
 
 import CategoryService from "./services"
@@ -19,7 +19,7 @@ const Category = () => {
         name: "",
         userId: undefined
     })
-    const columns: ColumnsType<DataType> = [
+    const columns: ColumnsType<DataTypeCategory> = [
         {
             title: "Id",
             dataIndex: "id",
@@ -62,8 +62,6 @@ const Category = () => {
     }
     // Delete
     const handleDelete = (record: any) => {
-        console.log(record)
-
         Modal.confirm({
             title: "Are you sure, you want to delete this student record?",
             okText: "Yes",
