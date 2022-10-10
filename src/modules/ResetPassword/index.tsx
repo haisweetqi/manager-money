@@ -1,47 +1,30 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Button, Form, Input } from "antd"
-import { useNavigate, useParams } from "react-router-dom"
-import CategoryService from "./services"
 
-const AddCategory = () => {
-    const navigate = useNavigate()
-    const { id } = useParams()
-
-
-
-    const onFinish = async (values: any) => {
-        const res = await CategoryService.addCategory(values)
-        if (res.status === 201) {
-            navigate("/category")
-        }
+const ResetPassword = () => {
+    const onFinish = (values: any) => {
+        console.log("Success:", values)
     }
 
-    useEffect(()=>{
-    if(id){
-    getSingerCategory(id)
-    }
-
-    },[id])
-
-    const getSingerCategory =async (id : any) =>{
-        // const res =  await
-
+    const onFinishFailed = (errorInfo: any) => {
+        console.log("Failed:", errorInfo)
     }
 
     return (
         <>
-            <h1>{id ? "Update Category": "Add Category"}</h1>
+            <h1>Forgot Password</h1>
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 8 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
                 <Form.Item
-                    label="Name"
-                    name="name"
+                    label="Password"
+                    name="password"
                     rules={[
                         {
                             required: true,
@@ -52,9 +35,22 @@ const AddCategory = () => {
                     <Input />
                 </Form.Item>
 
+                <Form.Item
+                    label="Confirm Password"
+                    name="Confirm password"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Please input your password!"
+                        }
+                    ]}
+                >
+                    <Input.Password />
+                </Form.Item>
+
                 <Form.Item wrapperCol={{ offset: 8, span: 8 }}>
                     <Button type="primary" htmlType="submit">
-                        {id ? "Update" : "Add"}
+                        Submit
                     </Button>
                 </Form.Item>
             </Form>
@@ -62,4 +58,4 @@ const AddCategory = () => {
     )
 }
 
-export default AddCategory
+export default ResetPassword

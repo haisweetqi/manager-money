@@ -1,13 +1,15 @@
 interface DataTypeCategory {
-    key: string
+    id: number
     name: string
+    userId: number
 }
 
 interface DataTypeSpending {
-    key: string
+    id: number
     name: string
-    age: number
-    address: string
+    categoryId: number
+    price: number
+    description: string
 }
 
 export type { DataTypeCategory, DataTypeSpending }

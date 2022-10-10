@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Button, Input, Modal, Space, Table } from "antd"
+import { Button, Modal, Space,  Table } from "antd"
 import { ColumnsType } from "antd/lib/table"
 import { DataTypeCategory } from "../../types/type"
 import { Link, useNavigate } from "react-router-dom"
@@ -8,8 +8,8 @@ import CategoryService from "./services"
 
 const Category = () => {
     const [data, setData] = useState([])
-    const [isModalOpen, setIsModalOpen] = useState(false)
     const navigate = useNavigate()
+
     const [isEditing, setIsEditing] = useState<{
         id: undefined | number
         name: undefined | string
@@ -39,12 +39,13 @@ const Category = () => {
                     <Button danger onClick={() => handleDelete(record)}>
                         Delete
                     </Button>
-                    <Button type="primary" onClick={() => showModal(record)}>
-                        Update
+                    <Button type="primary">
+                        <Link to={`/addCategory/${record.id}`}>Update</Link>
                     </Button>
                 </Space>
             )
         }
+
     ]
     // call api
     const fetchCategory = async () => {
@@ -53,21 +54,26 @@ const Category = () => {
             const { status, data }: any = res
 
             if (status === 200) {
-                setData(data.data)
+                const demo = data.data.map((item: any, index: any) => {
+                    item.id = index + 1
+                    return item
+                })
+
+                setData(demo)
+
             }
-            console.log(res)
         } catch (error) {
             console.log(error)
         }
     }
+
     // Delete
     const handleDelete = (record: any) => {
         Modal.confirm({
-            title: "Are you sure, you want to delete this student record?",
+            title: "Are you sure, you want to Category?",
             okText: "Yes",
             okType: "danger",
             onOk: async () => {
-                console.log("record", record)
 
                 try {
                     const res = await CategoryService.deleteCategory(record.id)
@@ -83,22 +89,40 @@ const Category = () => {
     }
 
     // show Modal
-    const showModal = (record: any) => {
-        setIsModalOpen(true)
-        setIsEditing(record)
-    }
+    // const showModal = (record: any) => {
+    //     setIsModalOpen(true)
+    //     setIsEditing(record)
+    // }
 
-    const handleOk = () => {
-        console.log("ok")
-    }
+    // const handleOk = async () => {
+    //     try {
+    //         const res = await CategoryService.updateCategory(isEditing.id, {
+    //             name: isEditing.name
+    //         })
+    //         console.log("delete", res)
 
-    const handleCancel = () => {
-        console.log("cancel")
-    }
+    //         if (res.status === 200) {
+    //             console.log("success")
+    //             fetchCategory()
+    //         }
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
 
-    const handleChange = () => {
-        console.log("Chane")
-    }
+    //     setIsModalOpen(false)
+    // }
+
+    // const handleCancel = () => {
+    //     setIsModalOpen(false)
+    // }
+
+    // const handleChange = (event: any) => {
+    //     const paramsEditing = {
+    //         ...isEditing,
+    //         name: event.target.value
+    //     }
+    //     setIsEditing(paramsEditing)
+    // }
 
     useEffect(() => {
         fetchCategory()
@@ -110,17 +134,10 @@ const Category = () => {
             <Button style={{ margin: "1rem 0" }}>
                 <Link to="/addCategory">Add a new Category</Link>
             </Button>
+
             <Table columns={columns} dataSource={data} rowKey="id" />
 
-            <Modal
-                title="Edit"
-                open={isModalOpen}
-                onOk={handleOk}
-                onCancel={handleCancel}
-            >
-                <label>Name</label>
-                <Input value={isEditing?.name} onChange={handleChange} />
-            </Modal>
+
         </>
     )
 }

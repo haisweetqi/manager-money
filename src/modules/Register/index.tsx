@@ -1,9 +1,11 @@
 import { Button, Form, Input } from "antd"
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import RegisterService from "./services"
 import LoginService from "./services"
 
-const Login = () => {
+const Register = () => {
+    const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
@@ -11,19 +13,17 @@ const Login = () => {
     const handleLogin = async (e: any) => {
         e.preventDefault()
 
-        const user = { email: email, password: password }
+        const user = { name: name, email: email, password: password }
 
         try {
-            const response = await LoginService.loginApi(user)
+            const response = await RegisterService.registerApi(user)
             console.log(response)
 
             const { status, data }: any = response
             console.log({ status, data })
 
             if (status === 201) {
-                localStorage.setItem("token", data?.data.token)
-                localStorage.setItem("refreshToken", data?.data.refreshToken)
-                navigate("/")
+                navigate("/login")
             }
         } catch (error) {
             console.log(error)
@@ -39,6 +39,21 @@ const Login = () => {
                 wrapperCol={{ span: 8 }}
                 autoComplete="off"
             >
+                <Form.Item
+                    label="Name"
+                    name="name"
+                    rules={[
+                        {
+                            required: true,
+                            message: "Please input your name!"
+                        }
+                    ]}
+                >
+                    <Input
+                        type="email"
+                        onChange={e => setName(e.target.value)}
+                    />
+                </Form.Item>
                 <Form.Item
                     label="Email"
                     name="email"
@@ -85,4 +100,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Register

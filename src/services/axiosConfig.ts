@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosRequestConfig } from "axios"
 import apiURL from "./apiURL"
 
 const apiConfig = axios.create({
@@ -16,6 +16,25 @@ apiConfig.interceptors.request.use(
         return config
     },
     error => Promise.reject(error)
+)
+
+apiConfig.interceptors.response.use(
+    (response: AxiosRequestConfig) => {
+        return response
+    },
+    (error: any) => {
+        const { status } = error.response
+        console.log({ status })
+
+
+        if (status === 401) {
+            window.location.href = '/login'
+            return
+
+        }
+
+        return error.response
+    }
 )
 
 const apiService = {
