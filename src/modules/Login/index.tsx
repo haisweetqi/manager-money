@@ -32,7 +32,7 @@ const Login = () => {
 
     return (
         <div>
-            <h1>Forgot Password</h1>
+            <h1>Login</h1>
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}

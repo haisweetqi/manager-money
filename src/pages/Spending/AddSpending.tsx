@@ -9,14 +9,15 @@ const AddSpending = () => {
     const [dataCate, setDataCate] = useState([])
 
     const navigate = useNavigate()
-    const [name, setName] = useState("")
-
-    const [categoryId, setCategoryId] = useState(0)
-    const [price, setPrice] = useState(0)
-    const [description, setDescription] = useState("")
+    const [isEditData,setIsEditData] = useState({
+       name : "",
+       categoryId : 0,
+       price : 0,
+       description :""
+    })
 
     const handleSubmit = async () => {
-        const values = { name, categoryId, price, description }
+        const values = { isEditData   }
         const res = await SpendingService.addSpending(values)
         console.log(res)
         if (res.status === 201) {
@@ -76,7 +77,7 @@ const AddSpending = () => {
                         }
                     ]}
                 >
-                    <Input onChange={(e: any) => setName(e.target.value)} />
+                    <Input onChange={handleChange} />
                 </Form.Item>
                 {/* <Form.Item
                     label="Category ID"
@@ -113,7 +114,7 @@ const AddSpending = () => {
                     ]}
                 >
                     <Input
-                        onChange={(e: any) => setPrice(Number(e.target.value))}
+                        onChange={handleChange}
                     />
                 </Form.Item>
 
@@ -128,7 +129,7 @@ const AddSpending = () => {
                     ]}
                 >
                     <Input
-                        onChange={(e: any) => setDescription(e.target.value)}
+                        onChange={handleChange}
                     />
                 </Form.Item>
 

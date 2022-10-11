@@ -15,7 +15,6 @@ import Delivery from "../pages/Delivery/Delivery"
 
 import HomePage from "../pages/HomePage/HomePage"
 import MailStatus from "../pages/Mail/MailStatus"
-import Policy from "../pages/Policy/Policy"
 import AddSpending from "../pages/Spending/AddSpending"
 import Spending from "../pages/Spending/Spending"
 import ResetPassword from "../modules/ResetPassword"
@@ -38,7 +37,6 @@ const Router = () => {
                 <Route element={<LayoutBlank />}>
                     <Route path="/login" element={<Login />} />
                     <Route path="/delivery" element={<Delivery />} />
-                    <Route path="/policy" element={<Policy />} />
                     <Route path="/register" element={<Register />} />
                     <Route
                         path="/change-password"

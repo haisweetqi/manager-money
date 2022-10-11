@@ -13,6 +13,9 @@ const Spending = () => {
     const [data, setData] = useState([])
     const [dataSource, setDataSource] = useState([])
     const [isModalOpen, setIsModalOpen] = useState(false)
+    const [type, setType] = useState ("")
+    console.log(type);
+
     const navigate = useNavigate()
 
     const [isEditing, setIsEditing] = useState<{
@@ -128,9 +131,19 @@ const Spending = () => {
     // show Modal
     const showModal = (record : any) => {
         setIsModalOpen(true)
+        setType("Update")
+
+
         setIsEditing(record)
+    }
+
+      const showModal2 = () => {
+        setIsModalOpen(true)
+        setType("Add")
+
 
     }
+
 
     const handleOk = async () => {
         try {
@@ -191,7 +204,7 @@ const Spending = () => {
         }
     }
 
-   const renderCat = () => {
+    const renderCat = () => {
         if (!dataCate || !dataCate.length) return
         return dataCate.map((item: any, index: any) => {
             return <Option value={item.id}>{item.name}</Option>
@@ -231,11 +244,11 @@ const Spending = () => {
     return (
         <>
             <h1>Spending</h1>
-            <Button style={{ margin: "1rem 0" }}  onClick={() => showModal()} >
+            <Button style={{ margin: "1rem 0" }}  onClick={() => showModal2()} >
                 Add a new Spending
             </Button>
             <Table columns={columns} dataSource={dataSource} rowKey="id" />
-
+            {type === 'Update' ?
             <Modal
                 title="Edit"
                 open={isModalOpen}
@@ -253,7 +266,7 @@ const Spending = () => {
                     style={{ width: 120 }}
                     defaultValue={isEditing.name}
                 >
-                  <Option value={isEditing?.id}>{data.}</Option>
+                  {/* <Option value={isEditing?.id}>{dataCa.name}</Option> */}
                 </Select>
                 <label>Price</label>
                 <Input
@@ -267,7 +280,39 @@ const Spending = () => {
                     value={isEditing?.description}
                     onChange={e => handleChange(e, "description")}
                 />
-            </Modal>
+            </Modal> :
+            <Modal
+                title="Add"
+                open={isModalOpen}
+                onOk={handleOk}
+                onCancel={handleCancel}
+            >
+                <label>Name</label>
+                <Input
+                    name="name"
+                    value={isEditing?.name}
+                    onChange={e => handleChange(e, "name")}
+                />
+                <label>Category ID</label>
+                 <Select
+                    style={{ width: 120 }}
+                    defaultValue={isEditing.name}
+                >
+                  {/* <Option value={isEditing?.id}>{dataCa.name}</Option> */}
+                </Select>
+                <label>Price</label>
+                <Input
+                    name="price"
+                    value={isEditing?.price}
+                    onChange={e => handleChange(e, "price")}
+                />
+                <label>Desc</label>
+                <Input
+                    name="description"
+                    value={isEditing?.description}
+                    onChange={e => handleChange(e, "description")}
+                />
+            </Modal>}
         </>
     )
 }
